@@ -49,12 +49,10 @@ select {
 }
 
 input[type="text"] {
-    width: 100%;
-    max-width: 300px;
+    width: 300px;
 }
 input[type="number"] {
-    width: 100%;
-    max-width: 120px;
+    width: 120px;
 }
 
 input:focus,
@@ -100,7 +98,7 @@ section {
 .inputs {
     display: flex;
     flex-wrap: wrap;
-    gap: 50px;
+    column-gap: 50px;
 }
 
 /* Estilo dos Produtos */
@@ -116,10 +114,6 @@ section {
     justify-content: space-between;
     align-items: center;
     gap: 20px;
-}
-
-.produto-item-on:first-child .bi-x-circle {
-    display: none;
 }
 
 .produto-item i {
@@ -232,6 +226,11 @@ section {
 
     input,
     select {
+        font-size: 12px;
+    }
+
+    input:focus,
+    select:focus {
         font-size: 12px;
     }
 

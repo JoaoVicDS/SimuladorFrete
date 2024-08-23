@@ -1,5 +1,5 @@
-const iconsAdd = document.querySelectorAll(".bi-plus-circle");
-const iconsClose = document.querySelectorAll(".bi-x-circle");
+const iconsAdd = document.querySelectorAll(".bi-plus-circle-fill");
+const iconsClose = document.querySelectorAll(".bi-x-circle-fill");
 const produtos = document.querySelectorAll(".produto-item");
 const selecaoProdutos = document.querySelectorAll(".select-produto");
 const EmbutidoSpan = document.querySelectorAll(".grupo-frete-embutido span");
