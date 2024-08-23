@@ -49,10 +49,12 @@ select {
 }
 
 input[type="text"] {
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
 }
 input[type="number"] {
-    width: 120px;
+    width: 100%;
+    max-width: 120px;
 }
 
 input:focus,
@@ -98,7 +100,7 @@ section {
 .inputs {
     display: flex;
     flex-wrap: wrap;
-    column-gap: 50px;
+    gap: 50px;
 }
 
 /* Estilo dos Produtos */
@@ -110,12 +112,13 @@ section {
     border-radius: 5px;
     margin-bottom: 20px;
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
     gap: 20px;
 }
 
-.produto-item-on:first-child .bi-x-circle{
+.produto-item-on:first-child .bi-x-circle {
     display: none;
 }
 
@@ -173,12 +176,13 @@ section {
 
 .valores {
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
 .valores div {
-    flex: 1 1 300px;
+    flex: 1 1 100%;
     background-color: white;
     padding: 20px;
     border-radius: 10px;
@@ -193,4 +197,45 @@ section {
 .valor-total h2, .valor-embutido h2 {
     text-transform: uppercase;
     color: #006b3c;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .inputs {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+    }
+
+    .btn-calcular {
+        max-width: 100%;
+    }
+
+    .valores div {
+        flex: 1 1 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 15px;
+    }
+
+    .btn-calcular {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    input,
+    select {
+        font-size: 12px;
+    }
+
+    .resultado {
+        padding: 20px;
+    }
 }

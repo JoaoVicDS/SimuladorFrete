@@ -127,12 +127,14 @@ iconsAdd.forEach((icon,index) => {
 
 // Excluir produto
 iconsClose.forEach((icon, index) => {
-    icon.addEventListener("click", function() {
-        
-        if (produtos[index].classList.contains("produto-item-on")) {
+    icon.addEventListener("click", function () {
+        // Verifica se o produto a ser excluído é o único visível
+        if (produtos[index].classList.contains("produto-item-on") && document.querySelectorAll(".produto-item-on").length > 1) {
             produtos[index].classList.remove("produto-item-on");
             produtos[index].classList.add("produto-item-off");
             qtdProdutos[index].value = "";
+        } else if (produtos[index].classList.contains("produto-item-on") && document.querySelectorAll(".produto-item-on").length === 1) {
+            alert("Você deve ter pelo menos um produto selecionado.");
         }
     });
 });
