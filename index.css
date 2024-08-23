@@ -1,0 +1,196 @@
+/* Estilos Gerais */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #006b3c;
+    padding: 20px;
+    text-align: center;
+    color: white !important;
+}
+
+main {
+    margin: 20px auto;
+    max-width: 1200px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo dos Inputs e Labels */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+input,
+select {
+    height: 40px;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+select {
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+input[type="text"] {
+    width: 300px;
+}
+input[type="number"] {
+    width: 120px;
+}
+
+input:focus,
+select:focus {
+    font-size: 14px;
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Botão de Calcular */
+.btn-calcular {
+    background-color: #006b3c;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.btn-calcular:hover {
+    background-color: #004e29;
+}
+
+/* Seções de Entradas */
+section {
+    margin-bottom: 40px;
+}
+
+.origem h1, .destino h1, .info-adicionais h3, .produtos h1 {
+    color: #007BFF;
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.inputs {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 50px;
+}
+
+/* Estilo dos Produtos */
+.produto-item-on {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-color: #006b3c;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+}
+
+.produto-item-on:first-child .bi-x-circle{
+    display: none;
+}
+
+.produto-item i {
+    font-size: 24px;
+    color: #007BFF;
+    cursor: pointer;
+}
+
+.produto-item i:hover {
+    color: #0056b3; 
+}
+
+.produto-item-off {
+    display: none;
+}
+
+.grupo-frete-embutido label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.grupo-frete-embutido p {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #007BFF;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    line-height: 1.5;
+}
+
+/* Seção de Resultados */
+.resultado {
+    display: none;
+    background-color: #f1f1f1;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.resultado.open-resultado {
+    display: block;
+}
+
+.resultado h1 {
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.valores {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.valores div {
+    flex: 1 1 300px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.valor-cobrar h1 {
+    color: #007BFF;
+}
+
+.valor-total h2, .valor-embutido h2 {
+    text-transform: uppercase;
+    color: #006b3c;
+}

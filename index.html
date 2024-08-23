@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Frete</title>
+    <!-- API Google Maps Distance Matrix -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBo-Ohm941bjBBkUg2vDmrf6lKMsLMhDzk" async defer loading="async"></script>
+    <!-- JavaScript -->
+    <script src="/index.js" defer></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/index.css">
+    <!-- Fonte -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Calcular Frete</h1>
+        </header>
+        <section class="origem">
+            <h1>Remetente</h1>
+
+            <div class="inputs">
+                <div class="grupo-input">
+                    <label for="endereco-origem">Endereço</label>
+                    <input id="endereco-origem" placeholder="Avenida Hilda Silva Cabral" type="text">
+                </div>
+            
+                <div class="grupo-input">
+                    <label for="numero-origem">Número</label>
+                    <input id="numero-origem" placeholder="16" type="number">
+                </div>
+            
+                <div class="grupo-input">
+                    <label for="cep-origem">CEP</label>
+                    <input id="cep-origem" placeholder="83090590" type="number">
+                </div>
+
+                <div class="grupo-input">
+                    <label for="bairro-origem">Bairro</label>
+                    <input id="bairro-origem" placeholder="Residencial Estrela Park" type="text">
+                </div>
+            
+                <div class="grupo-input">
+                    <label for="cidade-origem">Cidade</label>
+                    <input id="cidade-origem" placeholder="Campo Grande" type="text">
+                </div>
+            
+                <div class="grupo-input">
+                    <label for="estado-origem">Estado</label>
+                    <input id="estado-origem" placeholder="Mato Grosso do Sul" type="text">
+                </div>
+            </div>            
+        </section>
+
+        <section class="destino">
+            <h1>Destinatário</h1>
+
+            <div class="inputs">
+                <div class="grupo-input">
+                    <label for="endereco-destino">Endereço</label>
+                    <input id="endereco-destino" placeholder="Fazenda ou Rua" type="text">
+                </div>
+            
+                <div class="grupo-input">
+                    <label for="numero-destino">Número</label>
+                    <input id="numero-destino" placeholder="1502" type="number">
+                </div>
+            
+                <div class="grupo-input">
+                    <label for="cep-destino">CEP</label>
+                    <input id="cep-destino" placeholder="17283000" type="number">
+                </div>
+
+                <div class="grupo-input">
+                    <label for="bairro-destino">Bairro</label>
+                    <input id="bairro-destino" placeholder="Zona rural" type="text">
+                </div>
+            
+                <div class="grupo-input">
+                    <label for="cidade-destino">Cidade</label>
+                    <input id="cidade-destino" placeholder="Santo André" type="text">
+                </div>
+            
+                <div class="grupo-input">
+                    <label for="estado-destino">Estado</label>
+                    <input id="estado-destino" placeholder="São Paulo" type="text">
+                </div>
+            </div>
+            
+        </section>
+
+        <section class="info-adicionais">
+            <h3>Informações Adicionais</h3>
+        
+            <div class="inputs">
+                <div class="grupo-input">
+                    <label for="km-adicional">Km adicional <span style="font-weight: normal; color: #777; font-size: 12px;">(da cidade até o destino final)</span></label>
+                    <input id="km-adicional" placeholder="Ex: 20" type="number" step="0.1">
+                </div>
+
+
+            
+                <div class="grupo-input">
+                    <label for="km-terra">Estrada de terra (km)</label>
+                    <input id="km-terra" placeholder="Ex: 5" type="number" step="0.1">
+                </div>
+            </div>
+        </section>
+        
+        <section class="produtos">
+            <h1>Produtos</h1>
+
+            <div class="produto-item produto-item-on">
+                <i class="bi bi-plus-circle"></i>
+
+                <div class="grupo-select-produto">
+                    <label for="">Produtos</label>
+                    <select name="produto-selecionado" class="select-produto" id="select-produto">
+                        <option disabled>Produtos</option>
+                        <option value="pilheta">bebedouro pilheta 1200 l</option>
+                        <option value="banda-forte">cocho bovino banda forte premium 300 l</option>
+                        <option value="cocho-u">cocho boviforte u 300 l</option>
+                        <option value="cocho-coberto">cocho coberto trattare 2400 l</option>
+                        <option value="deposito">deposito de sal para gado 600 l</option>
+                        <option value="giro-2100">Giro Cocho Bovino 2100 Premium</option>
+                        <option value="giro-1500">Giro Cocho Bovino 1500</option>
+                    </select>
+                </div>
+
+                <div class="grupo-frete-embutido">
+                    <label for="frete-embutido">Frete Embutido</label>
+                    <p>R$ <span>100</span>,00</p>
+                </div>
+
+                <div class="grupo-input">
+                    <label for="qtd-produtos">Quantidade (UN)*</label>
+                    <input class="qtd-produtos" id="qtd-produtos" placeholder="Ex: 15" type="number">
+                </div>
+
+                <i class="bi bi-x-circle"></i>
+            </div>
+
+            <div class="produto-item produto-item-off">
+                <i class="bi bi-plus-circle"></i>
+
+                <div class="grupo-select-produto">
+                    <label for="">Produtos</label>
+                    <select name="produto-selecionado" class="select-produto" id="select-produto">
+                        <option disabled>Produtos</option>
+                        <option value="pilheta">bebedouro pilheta 1200 l</option>
+                        <option value="banda-forte">cocho bovino banda forte premium 300 l</option>
+                        <option value="cocho-u">cocho boviforte u 300 l</option>
+                        <option value="cocho-coberto">cocho coberto trattare 2400 l</option>
+                        <option value="deposito">deposito de sal para gado 600 l</option>
+                        <option value="giro-2100">Giro Cocho Bovino 2100 Premium</option>
+                        <option value="giro-1500">Giro Cocho Bovino 1500</option>
+                    </select>
+                </div>
+
+                <div class="grupo-frete-embutido">
+                    <label for="frete-embutido">Frete Embutido</label>
+                    <p>R$ <span>100</span>,00</p>
+                </div>
+
+                <div class="grupo-input">
+                    <label for="qtd-produtos">Quantidade (UN)*</label>
+                    <input class="qtd-produtos" id="qtd-produtos" placeholder="Ex: 15" type="number">
+                </div>
+
+                <i class="bi bi-x-circle"></i>
+            </div>
+
+            <div class="produto-item produto-item-off">
+                <i class="bi bi-plus-circle"></i>
+
+                <div class="grupo-select-produto">
+                    <label for="">Produtos</label>
+                    <select name="produto-selecionado" class="select-produto" id="select-produto">
+                        <option disabled>Produtos</option>
+                        <option value="pilheta">bebedouro pilheta 1200 l</option>
+                        <option value="banda-forte">cocho bovino banda forte premium 300 l</option>
+                        <option value="cocho-u">cocho boviforte u 300 l</option>
+                        <option value="cocho-coberto">cocho coberto trattare 2400 l</option>
+                        <option value="deposito">deposito de sal para gado 600 l</option>
+                        <option value="giro-2100">Giro Cocho Bovino 2100 Premium</option>
+                        <option value="giro-1500">Giro Cocho Bovino 1500</option>
+                    </select>
+                </div>
+
+                <div class="grupo-frete-embutido">
+                    <label for="frete-embutido">Frete Embutido</label>
+                    <p>R$ <span>100</span>,00</p>
+                </div>
+
+                <div class="grupo-input">
+                    <label for="qtd-produtos">Quantidade (UN)*</label>
+                    <input class="qtd-produtos" id="qtd-produtos" placeholder="Ex: 15" type="number">
+                </div>
+
+                <i class="bi bi-x-circle"></i>
+            </div>
+
+            <div class="produto-item produto-item-off">
+                <i class="bi bi-plus-circle"></i>
+
+                <div class="grupo-select-produto">
+                    <label for="">Produtos</label>
+                    <select name="produto-selecionado" class="select-produto" id="select-produto">
+                        <option disabled>Produtos</option>
+                        <option value="pilheta">bebedouro pilheta 1200 l</option>
+                        <option value="banda-forte">cocho bovino banda forte premium 300 l</option>
+                        <option value="cocho-u">cocho boviforte u 300 l</option>
+                        <option value="cocho-coberto">cocho coberto trattare 2400 l</option>
+                        <option value="deposito">deposito de sal para gado 600 l</option>
+                        <option value="giro-2100">Giro Cocho Bovino 2100 Premium</option>
+                        <option value="giro-1500">Giro Cocho Bovino 1500</option>
+                    </select>
+                </div>
+
+                <div class="grupo-frete-embutido">
+                    <label for="frete-embutido">Frete Embutido</label>
+                    <p>R$ <span>100</span>,00</p>
+                </div>
+
+                <div class="grupo-input">
+                    <label for="qtd-produtos">Quantidade (UN)*</label>
+                    <input class="qtd-produtos" id="qtd-produtos" placeholder="Ex: 15" type="number">
+                </div>
+
+                <i class="bi bi-x-circle"></i>
+            </div>
+
+            <div class="produto-item produto-item-off">
+                <i class="bi bi-plus-circle"></i>
+
+                <div class="grupo-select-produto">
+                    <label for="">Produtos</label>
+                    <select name="produto-selecionado" class="select-produto" id="select-produto">
+                        <option disabled>Produtos</option>
+                        <option value="pilheta">bebedouro pilheta 1200 l</option>
+                        <option value="banda-forte">cocho bovino banda forte premium 300 l</option>
+                        <option value="cocho-u">cocho boviforte u 300 l</option>
+                        <option value="cocho-coberto">cocho coberto trattare 2400 l</option>
+                        <option value="deposito">deposito de sal para gado 600 l</option>
+                        <option value="giro-2100">Giro Cocho Bovino 2100 Premium</option>
+                        <option value="giro-1500">Giro Cocho Bovino 1500</option>
+                    </select>
+                </div>
+
+                <div class="grupo-frete-embutido">
+                    <label for="frete-embutido">Frete Embutido</label>
+                    <p>R$ <span>100</span>,00</p>
+                </div>
+
+                <div class="grupo-input">
+                    <label for="qtd-produtos">Quantidade (UN)*</label>
+                    <input class="qtd-produtos" id="qtd-produtos" placeholder="Ex: 15" type="number">
+                </div>
+
+                <i class="bi bi-x-circle"></i>
+            </div>
+
+            <div class="produto-item produto-item-off">
+                <i class="bi bi-plus-circle"></i>
+
+                <div class="grupo-select-produto">
+                    <label for="">Produtos</label>
+                    <select name="produto-selecionado" class="select-produto" id="select-produto">
+                        <option disabled>Produtos</option>
+                        <option value="pilheta">bebedouro pilheta 1200 l</option>
+                        <option value="banda-forte">cocho bovino banda forte premium 300 l</option>
+                        <option value="cocho-u">cocho boviforte u 300 l</option>
+                        <option value="cocho-coberto">cocho coberto trattare 2400 l</option>
+                        <option value="deposito">deposito de sal para gado 600 l</option>
+                        <option value="giro-2100">Giro Cocho Bovino 2100 Premium</option>
+                        <option value="giro-1500">Giro Cocho Bovino 1500</option>
+                    </select>
+                </div>
+
+                <div class="grupo-frete-embutido">
+                    <label for="frete-embutido">Frete Embutido</label>
+                    <p>R$ <span>100</span>,00</p>
+                </div>
+
+                <div class="grupo-input">
+                    <label for="qtd-produtos">Quantidade (UN)*</label>
+                    <input class="qtd-produtos" id="qtd-produtos" placeholder="Ex: 15" type="number">
+                </div>
+
+                <i class="bi bi-x-circle"></i>
+            </div>
+        </section>
+        
+        <button id="btn-calcular" class="btn-calcular" type="button" onclick="enviarRequest()">Calcular</button>
+
+        <section class="resultado" id="resultado">
+            <h1 id="distancia-total-km"></h1>
+
+            <div class="valores">
+                <div class="valor-cobrar">
+                    <h1>Adicional de Frete</h1>
+                    <h1 id="valor-cobrar-h1">R$4.000,00</h1>
+                </div>
+    
+                <div class="valor-embutido">
+                    <h2>Frete Embutido</h3>
+                    <h2 id="valor-embutido-h1">R$1.000,00</h3>
+                </div>
+    
+                <div class="valor-total">
+                    <h2>Frete Total</h3>
+                    <h2 id="valor-total-h1">R$5.000,00</h3>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
