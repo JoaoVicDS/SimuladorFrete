@@ -9,7 +9,7 @@ const qtdProdutos = document.querySelectorAll(".qtd-produtos");
 selecaoProdutos.forEach((opcao, index)=>{
     EmbutidoSpan.innerHTML = 100;
     opcao.addEventListener("change", function(){
-        opcaoSelecionada = opcao.value;
+        var opcaoSelecionada = opcao.value;
 
         if(opcaoSelecionada === "pilheta" || opcaoSelecionada === "giro-2100" || opcaoSelecionada === "giro-1500") {
             EmbutidoSpan[index].innerHTML = 100;
@@ -52,6 +52,7 @@ function enviarRequest() {
     }
 
     if (origem && destino && validarQtdProdutos()) {
+        var qtdTotalProdutos = 0;
         var freteTotalEmbutido = 0;
 
         produtos.forEach((produto, index) => {
@@ -61,11 +62,37 @@ function enviarRequest() {
             // Verificação se os valores são numéricos válidos
             if (!isNaN(quantidade) && !isNaN(valorEmbutido)) {
                 var freteAtual = quantidade * valorEmbutido;
+                qtdTotalProdutos += quantidade;
                 freteTotalEmbutido += freteAtual;
             } else {
                 console.error("Valor inválido encontrado no produto:", produto);
             }
         });
+
+        let produtosSelecionados = []
+        var valorKm = 0;
+
+        produtos.forEach((produto, index)=>{
+            if (produto.classList.contains("produto-item-on")) {
+                produtosSelecionados.push(selecaoProdutos[index].value);
+            }
+        });
+
+        if (produtosSelecionados.includes("cocho-coberto")) {
+            if (qtdTotalProdutos <= 3) {
+                valorKm = 5.5;
+            } else if (qtdTotalProdutos > 3) {
+                valorKm = 9.0;
+            }
+        } else {
+            if (qtdTotalProdutos <= 10) {
+                valorKm = 3.0;
+            } else if (qtdTotalProdutos > 10 && qtdTotalProdutos <= 40) {
+                valorKm = 3.2;
+            } else if (qtdTotalProdutos > 40) {
+                valorKm = 8.5;
+            }
+        }
 
         // Instanciando um objeto da classe DistanceMatrixService;
         var service = new google.maps.DistanceMatrixService();
@@ -77,13 +104,33 @@ function enviarRequest() {
         }, (response, status) => {
             if (status === google.maps.DistanceMatrixStatus.OK) {
                 var distanciaTotalKm = (response.rows[0].elements[0].distance.value / 1000) + kmAdicional;
-                var adicionalDeFrete = parseInt((distanciaTotalKm * 3.0) + (kmTerra * 5.0));
+                var freteKM = parseInt((distanciaTotalKm * valorKm) + (kmTerra * 5.0));
+                if (freteKM >= freteTotalEmbutido) {
+                    var adicionalDeFrete = parseInt(freteKM - freteTotalEmbutido);
+                    if (adicionalDeFrete <= 100) {
+                        adicionalDeFrete += 350;
+                    } else if (adicionalDeFrete > 100 && adicionalDeFrete <= 200) {
+                        adicionalDeFrete += 250;
+                    } else if (adicionalDeFrete > 200 && adicionalDeFrete <= 300) {
+                        adicionalDeFrete += 150;
+                    }
+                } else {
+                    var adicionalDeFrete = parseInt(300);
+                }
                 var freteTotal = parseInt(freteTotalEmbutido + adicionalDeFrete);
 
-                while(freteTotal % 10 !== 0 && adicionalDeFrete % 10 !== 0) {
-                    freteTotal++;
-                    adicionalDeFrete++;
+                while (freteTotal % 10 !== 0 || adicionalDeFrete % 10 !== 0 || freteTotalEmbutido % 10 !== 0) {
+                    if (freteTotal % 10 !== 0) {
+                        freteTotal++;
+                    }
+                    if (adicionalDeFrete % 10 !== 0) {
+                        adicionalDeFrete++;
+                    }
+                    if (freteTotalEmbutido % 10 !== 0) {
+                        freteTotalEmbutido++;
+                    }
                 }
+                
                 mostrarResultados(distanciaTotalKm, adicionalDeFrete, freteTotalEmbutido, freteTotal);
                 window.location.href = "#resultado";
             } else {
@@ -94,7 +141,6 @@ function enviarRequest() {
         alert("Por favor, preencha todos os campos com asterisco ( * )");
     }
 }
-
 
 // Função para mostrar resultados;
 function mostrarResultados(distanciaTotalKm, adicionalDeFrete, freteTotalEmbutido, freteTotal) {
